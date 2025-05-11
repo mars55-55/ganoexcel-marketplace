@@ -30,6 +30,16 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-bold mb-2">Panel de Cliente</h3>
                     <p>Bienvenido. Aquí podrás comprar productos saludables y seguir tus pedidos.</p>
+                    <div class="mt-4">
+                        <a href="{{ route('productos.index') }}" class="text-blue-500 hover:underline">
+                            Ver Productos
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ route('cart.index') }}" class="text-blue-500 hover:underline">
+                            Ver Carrito de Compras
+                        </a>
+                    </div>
                 </div>
             @endif
         </div>

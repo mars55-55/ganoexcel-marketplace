@@ -9,10 +9,43 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $productos = Producto::with('categoria')->get();
-        return view('distribuidor.productos.index', compact('productos'));
+        $user = \Illuminate\Support\Facades\Auth::user();
+
+        // Base query
+        $query = Producto::with('categoria');
+
+        // Filtrar por distribuidor si aplica
+        if ($user->role === 'distribuidor') {
+            $query->where('user_id', $user->id);
+        }
+
+        // Búsqueda por nombre
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        // Filtrar por categoría
+        if ($request->filled('categoria_id')) {
+            $query->where('categoria_id', $request->categoria_id);
+        }
+
+        // Filtrar por rango de precios
+        if ($request->filled('precio_min')) {
+            $query->where('precio_unitario', '>=', $request->precio_min);
+        }
+        if ($request->filled('precio_max')) {
+            $query->where('precio_unitario', '<=', $request->precio_max);
+        }
+
+        // Obtener productos paginados
+        $productos = $query->paginate(10);
+
+        // Obtener todas las categorías para el filtro
+        $categorias = \App\Models\Categoria::all();
+
+        return view('distribuidor.productos.index', compact('productos', 'categorias'));
     }
 
     public function create()

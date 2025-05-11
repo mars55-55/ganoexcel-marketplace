@@ -22,4 +22,10 @@ class Producto extends Model
     {
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
+
+    // Relación: Un producto tiene muchas reseñas
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
