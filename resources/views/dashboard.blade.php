@@ -15,7 +15,25 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-bold mb-2">Panel de Administrador</h3>
                     <p>Desde aquí puedes gestionar productos, usuarios y ver estadísticas.</p>
+                    <div class="mt-4">
+                        <a href="{{ route('admin.productos.index') }}" class="text-blue-500 hover:underline">
+                            Gestionar Productos
+                        </a>
                 </div>
+              
+                    <div class="mt-4">
+                        <a href="{{ route('admin.estadisticas.index') }}" class="text-blue-500 hover:underline">
+                            Ver Estadísticas
+                        </a>
+                    </div>
+                       <div class="mt-4">
+                        <a href="{{ route('admin.categorias.index') }}" class="text-blue-500 hover:underline">
+                            Ver categorias
+                        </a>
+                    </div>
+              
+                </div>
+
             @elseif ($role === 'distribuidor')
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-bold mb-2">Panel de Distribuidor</h3>

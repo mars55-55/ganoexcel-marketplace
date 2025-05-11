@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EstadisticasController;
 use App\Http\Controllers\Admin\PromocionController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,13 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'role:distribuidor'])->prefix('distribuidor')->name('distribuidor.')->group(function () {
+Route::middleware(['auth', RoleMiddleware::class . ':distribuidor'])->prefix('distribuidor')->name('distribuidor.')->group(function () {
     Route::resource('productos', ProductoController::class);
     Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
     Route::post('/compras', [CompraController::class, 'store'])->name('compras.store');
 });
 
-Route::middleware(['auth', 'role:cliente'])->group(function () {
+Route::middleware(['auth', RoleMiddleware::class . ':cliente'])->group(function () {
     Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 });
 
@@ -49,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/productos/{producto}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
     // CRUD de productos
     Route::resource('productos', AdminProductoController::class);
 

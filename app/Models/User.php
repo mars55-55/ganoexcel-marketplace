@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Asegúrate de incluir esto si necesitas asignarlo masivamente
     ];
 
     /**
@@ -33,6 +34,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    
     /**
      * Get the attributes that should be cast.
      *
@@ -45,4 +47,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+  
 }

@@ -16,10 +16,6 @@ class ProductoController extends Controller
         // Base query
         $query = Producto::with('categoria');
 
-        // Filtrar por distribuidor si aplica
-        if ($user->role === 'distribuidor') {
-            $query->where('user_id', $user->id);
-        }
 
         // Búsqueda por nombre
         if ($request->filled('nombre')) {
