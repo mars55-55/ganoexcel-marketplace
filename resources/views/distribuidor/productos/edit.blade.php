@@ -1,42 +1,67 @@
 <x-app-layout>
-    <x-slot name="header">Editar Producto</x-slot>
+    <x-slot name="header">
+        <h2 style="font-weight: 600; font-size: 1.25rem; color: #1e1e1e;">
+            Editar Producto
+        </h2>
+    </x-slot>
 
-    <div class="py-4 px-6">
-        <form action="{{ route('distribuidor.productos.update', $producto) }}" method="POST" enctype="multipart/form-data">
-            @csrf @method('PUT')
+    <div style="padding: 1.5rem; background-color: #1e1e1e; color: #FFD700;">
+        <form action="{{ route('distribuidor.productos.update', $producto) }}" method="POST" enctype="multipart/form-data"
+              style="background-color: #121212; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #FFD700;">
+            @csrf
+            @method('PUT')
 
-            <label>Nombre:</label>
-            <input type="text" name="nombre" value="{{ $producto->nombre }}" required class="w-full mb-2 border rounded">
+            <label for="nombre" style="display: block; margin-bottom: 0.25rem;">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" value="{{ $producto->nombre }}" required
+                   style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e; color: #FFD700;
+                          border: 1px solid #FFD700; border-radius: 0.375rem;">
 
-            <label>Descripción:</label>
-            <textarea name="descripcion" class="w-full mb-2 border rounded">{{ $producto->descripcion }}</textarea>
+            <label for="descripcion" style="display: block; margin-bottom: 0.25rem;">Descripción:</label>
+            <textarea name="descripcion" id="descripcion" rows="2"
+                      style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                             color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">{{ $producto->descripcion }}</textarea>
 
-            <label>Ingredientes:</label>
-            <textarea name="ingredientes" class="w-full mb-2 border rounded">{{ $producto->ingredientes }}</textarea>
+            <label for="ingredientes" style="display: block; margin-bottom: 0.25rem;">Ingredientes:</label>
+            <textarea name="ingredientes" id="ingredientes" rows="2"
+                      style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                             color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">{{ $producto->ingredientes }}</textarea>
 
-            <label>Beneficios:</label>
-            <textarea name="beneficios" class="w-full mb-2 border rounded">{{ $producto->beneficios }}</textarea>
+            <label for="beneficios" style="display: block; margin-bottom: 0.25rem;">Beneficios:</label>
+            <textarea name="beneficios" id="beneficios" rows="2"
+                      style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                             color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">{{ $producto->beneficios }}</textarea>
 
-            <label>Precio Unitario:</label>
-            <input type="number" name="precio_unitario" step="0.01" value="{{ $producto->precio_unitario }}" required class="w-full mb-2 border rounded">
+            <label for="precio_unitario" style="display: block; margin-bottom: 0.25rem;">Precio Unitario:</label>
+            <input type="number" name="precio_unitario" id="precio_unitario" step="0.01" value="{{ $producto->precio_unitario }}" required
+                   style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                          color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
 
-            <label>Precio Mayorista:</label>
-            <input type="number" name="precio_mayorista" step="0.01" value="{{ $producto->precio_mayorista }}" class="w-full mb-2 border rounded">
+            <label for="precio_mayorista" style="display: block; margin-bottom: 0.25rem;">Precio Mayorista:</label>
+            <input type="number" name="precio_mayorista" id="precio_mayorista" step="0.01" value="{{ $producto->precio_mayorista }}"
+                   style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                          color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
 
-            <label>Categoría:</label>
-            <select name="categoria_id" class="w-full mb-2 border rounded">
+            <label for="categoria_id" style="display: block; margin-bottom: 0.25rem;">Categoría:</label>
+            <select name="categoria_id" id="categoria_id"
+                    style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                           color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
                 @foreach ($categorias as $cat)
                     <option value="{{ $cat->id }}" @selected($producto->categoria_id === $cat->id)>{{ $cat->nombre }}</option>
                 @endforeach
             </select>
 
-            <label>Imagen:</label>
+            <label for="imagen" style="display: block; margin-bottom: 0.25rem;">Imagen:</label>
             @if ($producto->imagen)
-                <img src="{{ asset('storage/' . $producto->imagen) }}" alt="imagen" class="h-20 mb-2">
+                <img src="{{ asset('storage/' . $producto->imagen) }}" alt="imagen" style="height: 80px; margin-bottom: 1rem;">
             @endif
-            <input type="file" name="imagen" class="w-full mb-4">
+            <input type="file" name="imagen" id="imagen"
+                   style="width: 100%; margin-bottom: 1.5rem; color: #FFD700;">
 
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Actualizar</button>
+            <button type="submit"
+                    style="background-color: #FFD700; color: #000000; padding: 0.5rem 1.5rem;
+                           border-radius: 0.375rem; font-weight: 600;">
+                Actualizar
+            </button>
         </form>
     </div>
 </x-app-layout>

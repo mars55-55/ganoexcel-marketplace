@@ -1,110 +1,136 @@
 <x-app-layout>
-    <x-slot name="header">Productos</x-slot>
+    <x-slot name="header">
+        <h2 style="font-weight: 600; font-size: 1.25rem; color: #1e1e1e;">
+            Productos
+        </h2>
+    </x-slot>
 
-    <div class="py-4 px-6">
+    <div style="padding: 1.5rem; background-color: #1e1e1e; color: #FFD700;">
         @php
             $role = Auth::user()->role;
         @endphp
 
-        {{-- Mostrar botón de "Nuevo Producto" solo para distribuidores --}}
+        {{-- Botón para distribuidores --}}
         @if ($role === 'distribuidor')
-            <a href="{{ route('distribuidor.productos.create') }}" class="bg-green-600 text-white px-4 py-2 rounded">+ Nuevo Producto</a>
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <a href="{{ route('distribuidor.productos.create') }}"
+                   style="background-color: #FFD700; color: #000000; padding: 0.5rem 1.5rem; border-radius: 0.375rem; font-weight: 600; transition: background 0.3s;">
+                    + Nuevo Producto
+                </a>
+            </div>
         @endif
 
-        {{-- Formulario de búsqueda y filtros --}}
-        <form method="GET" action="{{ route('distribuidor.productos.index') }}" class="mt-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {{-- Búsqueda por nombre --}}
-                <div>
-                    <label for="nombre" class="block text-sm font-medium text-gray-700">Buscar por Nombre</label>
-                    <input type="text" name="nombre" id="nombre" value="{{ request('nombre') }}" class="w-full border rounded">
-                </div>
-
-                {{-- Filtrar por categoría --}}
-                <div>
-                    <label for="categoria_id" class="block text-sm font-medium text-gray-700">Categoría</label>
-                    <select name="categoria_id" id="categoria_id" class="w-full border rounded">
-                        <option value="">Todas</option>
-                        @foreach ($categorias as $categoria)
-                            <option value="{{ $categoria->id }}" {{ request('categoria_id') == $categoria->id ? 'selected' : '' }}>
-                                {{ $categoria->nombre }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                {{-- Filtrar por rango de precios --}}
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label for="precio_min" class="block text-sm font-medium text-gray-700">Precio Mínimo</label>
-                        <input type="number" name="precio_min" id="precio_min" value="{{ request('precio_min') }}" class="w-full border rounded">
+        {{-- Filtros --}}
+        <div style="margin-bottom: 2rem; background-color: #121212; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #FFD700;">
+            <h3 style="text-align: center; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Filtrar Productos</h3>
+            <form method="GET" action="{{ route('distribuidor.productos.index') }}">
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                    <div style="flex: 1 1 30%;">
+                        <label for="nombre" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Nombre</label>
+                        <input type="text" name="nombre" id="nombre" value="{{ request('nombre') }}"
+                               style="width: 100%; padding: 0.5rem; background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
                     </div>
-                    <div>
-                        <label for="precio_max" class="block text-sm font-medium text-gray-700">Precio Máximo</label>
-                        <input type="number" name="precio_max" id="precio_max" value="{{ request('precio_max') }}" class="w-full border rounded">
+                    <div style="flex: 1 1 30%;">
+                        <label for="categoria_id" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Categoría</label>
+                        <select name="categoria_id" id="categoria_id"
+                                style="width: 100%; padding: 0.5rem; background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
+                            <option value="">Todas</option>
+                            @foreach ($categorias as $categoria)
+                                <option value="{{ $categoria->id }}" {{ request('categoria_id') == $categoria->id ? 'selected' : '' }}>
+                                    {{ $categoria->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div style="flex: 1 1 30%; display: flex; gap: 0.5rem;">
+                        <div style="flex: 1;">
+                            <label for="precio_min" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Precio Mín</label>
+                            <input type="number" name="precio_min" id="precio_min" value="{{ request('precio_min') }}"
+                                   style="width: 100%; padding: 0.5rem; background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="precio_max" style="display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">Precio Máx</label>
+                            <input type="number" name="precio_max" id="precio_max" value="{{ request('precio_max') }}"
+                                   style="width: 100%; padding: 0.5rem; background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="mt-4">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Aplicar Filtros</button>
-                <a href="{{ route('distribuidor.productos.index') }}" class="text-gray-500 hover:underline ml-4">Limpiar Filtros</a>
-            </div>
-        </form>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <button type="submit"
+                            style="background-color: #FFD700; color: #000000; padding: 0.5rem 1.5rem; border-radius: 0.375rem; font-weight: 600;">
+                        Aplicar Filtros
+                    </button>
+                    <a href="{{ route('distribuidor.productos.index') }}"
+                       style="margin-left: 1rem; color: #FFD700; text-decoration: underline;">
+                        Limpiar Filtros
+                    </a>
+                </div>
+            </form>
+        </div>
 
         {{-- Lista de productos --}}
-        <ul class="mt-4">
+        <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;">
             @foreach ($productos as $producto)
-                <li class="py-2 border-b">
-                    <div>
-                        <h3 class="font-bold">{{ $producto->nombre }}</h3>
-                        <p class="text-sm text-gray-600">{{ $producto->categoria->nombre ?? 'Sin categoría' }}</p>
-                        <p class="text-sm text-gray-600">Precio: ${{ number_format($producto->precio_unitario, 2) }}</p>
+                <div style="background-color: #121212; padding: 1rem; border-radius: 0.75rem; border: 1px solid #FFD700; width: 280px; flex: 0 0 auto; position: relative;">
+                    {{-- Mostrar la imagen --}}
+                    @if ($producto->imagen)
+                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="imagen"
+                            style="width: 100%; height: auto; border-radius: 0.75rem; object-fit: cover; margin-bottom: 1rem;">
+                    @endif
+                    <h3 style="font-size: 1.25rem; font-weight: bold;">{{ $producto->nombre }}</h3>
+                    <p style="color: #FFA500;">{{ $producto->categoria->nombre ?? 'Sin categoría' }}</p>
+                    <p>Precio: ${{ number_format($producto->precio_unitario, 2) }}</p>
+                    <p style="color: #FFA500;">Calificación: 
+                        @php
+                            $promedio = $producto->reviews->avg('calificacion');
+                        @endphp
+                        {{ $promedio ? number_format($promedio, 1) . '/5' : 'Sin calificaciones' }}
+                    </p>
 
-                        {{-- Mostrar calificación promedio --}}
-                        <p class="text-sm text-yellow-500">
-                            Calificación: 
-                            @php
-                                $promedio = $producto->reviews->avg('calificacion');
-                            @endphp
-                            {{ $promedio ? number_format($promedio, 1) : 'Sin calificaciones' }}
-                        </p>
+                    {{-- Botón editar (visible para todos los distribuidores) --}}
+                    @if ($role === 'distribuidor')
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <a href="{{ route('distribuidor.productos.edit', $producto) }}"
+                               style="background-color: #FFD700; color: #000000; padding: 0.6rem 1.5rem; border-radius: 0.5rem; font-weight: 700; display: inline-block; box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3); transition: transform 0.2s, box-shadow 0.2s;"
+                               onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 12px rgba(255, 215, 0, 0.4)';"
+                               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 10px rgba(255, 215, 0, 0.3)';">
+                                ✏️ Editar Producto
+                            </a>
+                        </div>
+                    @endif
 
-                        {{-- Mostrar reseñas --}}
-                        <h4 class="font-bold mt-2">Reseñas:</h4>
-                        <ul class="ml-4">
-                            @foreach ($producto->reviews as $review)
-                                <li class="text-sm">
-                                    <strong>{{ $review->user->name }}:</strong> 
-                                    {{ $review->comentario ?? 'Sin comentario' }} 
-                                    ({{ $review->calificacion }}/5)
-                                </li>
-                            @endforeach
-                        </ul>
+                    {{-- Carrito (solo para clientes) --}}
+                    @if ($role === 'cliente')
+                        <form method="POST" action="{{ route('cart.store') }}" style="margin-top: 1rem;">
+                            @csrf
+                            <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                            <input type="number" name="cantidad" value="1" min="1"
+                                style="width: 60px; padding: 0.3rem; border: 1px solid #FFD700; background-color: #1e1e1e; color: #FFD700; border-radius: 0.375rem;">
+                            <button type="submit"
+                                    style="margin-left: 0.5rem; background-color: #FFD700; color: #000000; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600;">
+                                Añadir al Carrito
+                            </button>
+                        </form>
+                    @endif
+                    @if ($role === 'cliente')
+                        <div style="margin-top: 1rem; text-align: center;">
+                            <button type="button" onclick="mostrarFormularioResena({{ $producto->id }})"
+                                    style="background-color: #FFD700; color: #000000; padding: 0.6rem 1.5rem; border-radius: 0.5rem; font-weight: 700; display: inline-block; box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3); transition: transform 0.2s, box-shadow 0.2s;">
+                                Deja tu Reseña
+                            </button>
+                        </div>
+                    @endif
 
-                        {{-- Opciones para distribuidores --}}
-                        @if ($role === 'distribuidor')
-                            <a href="{{ route('distribuidor.productos.edit', $producto) }}" class="text-blue-500">Editar</a>
-                            <form action="{{ route('distribuidor.productos.destroy', $producto) }}" method="POST" class="inline-block ml-2">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="text-red-500">Eliminar</button>
-                            </form>
-                        @endif
-
-                        {{-- Opciones para clientes --}}
-                        @if ($role === 'cliente')
-                            <form method="POST" action="{{ route('cart.store') }}" class="inline-block">
+                    {{-- Formulario de reseña (oculto inicialmente) --}}
+                    @if ($role === 'cliente')
+                        <div id="formulario-resena-{{ $producto->id }}" style="display: none; margin-top: 2rem; padding: 1.5rem; background-color: #121212; border: 1px solid #FFD700; border-radius: 0.75rem;">
+                            <h3 style="text-align: center; font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Deja una Reseña para "{{ $producto->nombre }}"</h3>
+                            <form action="{{ route('reviews.store', $producto) }}" method="POST">
                                 @csrf
-                                <input type="hidden" name="producto_id" value="{{ $producto->id }}">
-                                <input type="number" name="cantidad" value="1" min="1" class="w-16 border rounded">
-                                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Añadir al Carrito</button>
-                            </form>
-
-                            {{-- Formulario para agregar una reseña --}}
-                            <form action="{{ route('reviews.store', $producto) }}" method="POST" class="mt-2">
-                                @csrf
-                                <label for="calificacion" class="block text-sm font-medium text-gray-700">Calificación</label>
-                                <select name="calificacion" id="calificacion" class="w-full border rounded mb-2">
+                                <label for="calificacion" style="display: block; margin-bottom: 0.25rem;">Calificación</label>
+                                <select name="calificacion" id="calificacion"
+                                        style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
                                     <option value="1">1 - Muy malo</option>
                                     <option value="2">2 - Malo</option>
                                     <option value="3">3 - Regular</option>
@@ -112,29 +138,34 @@
                                     <option value="5">5 - Excelente</option>
                                 </select>
 
-                                <label for="comentario" class="block text-sm font-medium text-gray-700">Comentario</label>
-                                <textarea name="comentario" id="comentario" rows="2" class="w-full border rounded mb-2"></textarea>
+                                <label for="comentario" style="display: block; margin-bottom: 0.25rem;">Comentario</label>
+                                <textarea name="comentario" id="comentario" rows="2"
+                                          style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;"></textarea>
 
-                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Enviar Reseña</button>
+                                <button type="submit"
+                                        style="background-color: #FFD700; color: #000000; padding: 0.5rem 1.5rem; border-radius: 0.375rem; font-weight: 600;">
+                                    Enviar Reseña
+                                </button>
                             </form>
-                        @endif
-                    </div>
-                </li>
+                        </div>
+                    @endif
+                </div>
             @endforeach
-        </ul>
+        </div>
+
 
         {{-- Paginación --}}
-        <div class="mt-4">
+        <div style="text-align: center; margin-top: 2rem;">
             {{ $productos->links() }}
         </div>
     </div>
-
-    {{-- Historial de compras para distribuidores --}}
-    @if ($role === 'distribuidor')
-        <div class="mt-4">
-            <a href="{{ route('distribuidor.compras.index') }}" class="text-blue-500 hover:underline">
-                Ver Historial de Compras
-            </a>
-        </div>
-    @endif
+    <script>
+    function mostrarFormularioResena(productoId) {
+        document.querySelectorAll('.formulario-resena').forEach(el => el.style.display = 'none');
+        const form = document.getElementById('formulario-resena-' + productoId);
+        if (form) {
+            form.style.display = 'block';
+        }
+    }
+</script>
 </x-app-layout>
