@@ -35,7 +35,7 @@
             <input type="text" name="nueva_categoria" placeholder="Escribe una nueva categoría" class="w-full mb-2 border rounded" style="background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700;">
 
             <label for="imagen" style="font-size: 1rem; font-weight: 600; color: #FFD700;">Imagen:</label>
-            <input type="file" name="imagen" class="w-full mb-4" style="background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700;">
+            <input type="file" name="imagen" accept="image/*" class="w-full mb-4" style="background-color: #1e1e1e; color: #FFD700; border: 1px solid #FFD700;">
 
             <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded" style="background-color: #FFD700; color: #1e1e1e; border: none; font-weight: 600;">
                 Guardar

@@ -1,4 +1,3 @@
-{{-- filepath: c:\Users\marti\ganoexcel-marketplace\resources\views\admin\productos\edit.blade.php --}}
 <x-app-layout>
     <x-slot name="header">
         <h2 style="font-weight: 600; font-size: 1.25rem; color: #1e1e1e;">
@@ -7,53 +6,62 @@
     </x-slot>
 
     <div style="padding: 1.5rem; background-color: #1e1e1e; color: #FFD700;">
-        <form action="{{ route('admin.productos.update', $producto) }}" method="POST">
-            @csrf @method('PUT')
+        <form action="{{ route('distribuidor.productos.update', $producto) }}" method="POST" enctype="multipart/form-data"
+              style="background-color: #121212; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #FFD700;">
+            @csrf
+            @method('PUT')
 
-            <!-- Nombre del producto -->
-            <div style="margin-bottom: 1rem;">
-                <label for="nombre" style="display: block; font-size: 0.875rem; font-weight: 500; color: #FFD700; margin-bottom: 0.5rem;">Nombre</label>
-                <input type="text" name="nombre" id="nombre"
-                       style="width: 100%; padding: 0.5rem; background-color: #121212; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;"
-                       value="{{ $producto->nombre }}" required>
-            </div>
+            <label for="nombre" style="display: block; margin-bottom: 0.25rem;">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" value="{{ $producto->nombre }}" required
+                   style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e; color: #FFD700;
+                          border: 1px solid #FFD700; border-radius: 0.375rem;">
 
-            <!-- Descripción -->
-            <div style="margin-bottom: 1rem;">
-                <label for="descripcion" style="display: block; font-size: 0.875rem; font-weight: 500; color: #FFD700; margin-bottom: 0.5rem;">Descripción</label>
-                <textarea name="descripcion" id="descripcion"
-                          style="width: 100%; padding: 0.5rem; background-color: #121212; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">{{ $producto->descripcion }}</textarea>
-            </div>
+            <label for="descripcion" style="display: block; margin-bottom: 0.25rem;">Descripción:</label>
+            <textarea name="descripcion" id="descripcion" rows="2"
+                      style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                             color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">{{ $producto->descripcion }}</textarea>
 
-            <!-- Precio unitario -->
-            <div style="margin-bottom: 1rem;">
-                <label for="precio_unitario" style="display: block; font-size: 0.875rem; font-weight: 500; color: #FFD700; margin-bottom: 0.5rem;">Precio Unitario</label>
-                <input type="number" name="precio_unitario" id="precio_unitario"
-                       style="width: 100%; padding: 0.5rem; background-color: #121212; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;"
-                       value="{{ $producto->precio_unitario }}" required>
-            </div>
+            <label for="ingredientes" style="display: block; margin-bottom: 0.25rem;">Ingredientes:</label>
+            <textarea name="ingredientes" id="ingredientes" rows="2"
+                      style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                             color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">{{ $producto->ingredientes }}</textarea>
 
-            <!-- Categoría -->
-            <div style="margin-bottom: 1rem;">
-                <label for="categoria_id" style="display: block; font-size: 0.875rem; font-weight: 500; color: #FFD700; margin-bottom: 0.5rem;">Categoría</label>
-                <select name="categoria_id" id="categoria_id"
-                        style="width: 100%; padding: 0.5rem; background-color: #121212; color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;"
-                        required>
-                    @foreach ($categorias as $categoria)
-                        <option value="{{ $categoria->id }}" {{ $producto->categoria_id == $categoria->id ? 'selected' : '' }}>
-                            {{ $categoria->nombre }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            <label for="beneficios" style="display: block; margin-bottom: 0.25rem;">Beneficios:</label>
+            <textarea name="beneficios" id="beneficios" rows="2"
+                      style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                             color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">{{ $producto->beneficios }}</textarea>
 
-            <!-- Botón Actualizar -->
-            <div style="text-align: center;">
-                <button type="submit"
-                        style="background-color: #FFD700; color: #1e1e1e; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; transition: background 0.3s;">
-                    Actualizar
-                </button>
-            </div>
+            <label for="precio_unitario" style="display: block; margin-bottom: 0.25rem;">Precio Unitario:</label>
+            <input type="number" name="precio_unitario" id="precio_unitario" step="0.01" value="{{ $producto->precio_unitario }}" required
+                   style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                          color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
+
+            <label for="precio_mayorista" style="display: block; margin-bottom: 0.25rem;">Precio Mayorista:</label>
+            <input type="number" name="precio_mayorista" id="precio_mayorista" step="0.01" value="{{ $producto->precio_mayorista }}"
+                   style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                          color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
+
+            <label for="categoria_id" style="display: block; margin-bottom: 0.25rem;">Categoría:</label>
+            <select name="categoria_id" id="categoria_id"
+                    style="width: 100%; margin-bottom: 1rem; padding: 0.5rem; background-color: #1e1e1e;
+                           color: #FFD700; border: 1px solid #FFD700; border-radius: 0.375rem;">
+                @foreach ($categorias as $cat)
+                    <option value="{{ $cat->id }}" @selected($producto->categoria_id === $cat->id)>{{ $cat->nombre }}</option>
+                @endforeach
+            </select>
+
+            <label for="imagen" style="display: block; margin-bottom: 0.25rem;">Imagen:</label>
+            @if ($producto->imagen)
+                <img src="{{ asset('storage/' . $producto->imagen) }}" alt="imagen" style="height: 80px; margin-bottom: 1rem;">
+            @endif
+            <input type="file" name="imagen" id="imagen"
+                   style="width: 100%; margin-bottom: 1.5rem; color: #FFD700;">
+
+            <button type="submit"
+                    style="background-color: #FFD700; color: #000000; padding: 0.5rem 1.5rem;
+                           border-radius: 0.375rem; font-weight: 600;">
+                Actualizar
+            </button>
         </form>
     </div>
 </x-app-layout>
