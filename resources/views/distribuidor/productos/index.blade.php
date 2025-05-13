@@ -75,7 +75,7 @@
                 <div style="background-color: #121212; padding: 1rem; border-radius: 0.75rem; border: 1px solid #FFD700; width: 280px; flex: 0 0 auto; position: relative;">
                     {{-- Mostrar la imagen --}}
                     @if ($producto->imagen)
-                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="imagen"
+                        <img src="{{ asset('storage/productos/' . $producto->imagen) }}" alt="imagen"
                             style="width: 100%; height: auto; border-radius: 0.75rem; object-fit: cover; margin-bottom: 1rem;">
                     @endif
                     <h3 style="font-size: 1.25rem; font-weight: bold;">{{ $producto->nombre }}</h3>
