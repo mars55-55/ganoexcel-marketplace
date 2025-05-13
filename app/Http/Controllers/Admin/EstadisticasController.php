@@ -6,21 +6,27 @@ use App\Http\Controllers\Controller;
 use App\Models\Compra;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Producto;
 
 class EstadisticasController extends Controller
 {
     public function index()
     {
-        $ventasPorMes = Compra::select(
-            DB::raw('MONTH(created_at) as mes'),
-            DB::raw('SUM(precio_total) as total_ventas')
-        )->groupBy('mes')->get();
+        // Ganancias por mes
+        $gananciasPorMes = \DB::table('pedido_producto')
+            ->selectRaw('YEAR(created_at) as anio, MONTH(created_at) as mes_num, SUM(precio_unitario * cantidad) as total_ganancias')
+            ->groupByRaw('YEAR(created_at), MONTH(created_at)')
+            ->orderByRaw('anio, mes_num')
+            ->get();
 
-        $productosMasVendidos = Compra::select(
-            'producto_id',
-            DB::raw('SUM(cantidad) as total_vendido')
-        )->groupBy('producto_id')->orderByDesc('total_vendido')->take(5)->get();
+        // Productos más vendidos
+        $productosMasVendidos = \DB::table('pedido_producto')
+            ->join('productos', 'pedido_producto.producto_id', '=', 'productos.id')
+            ->select('productos.nombre', \DB::raw('SUM(pedido_producto.cantidad) as total_vendido'))
+            ->groupBy('productos.nombre')
+            ->orderByDesc('total_vendido')
+            ->get();
 
-        return view('admin.estadisticas.index', compact('ventasPorMes', 'productosMasVendidos'));
+        return view('admin.estadisticas.index', compact('gananciasPorMes', 'productosMasVendidos'));
     }
 }
