@@ -38,7 +38,7 @@ class ProductoSeeder extends Seeder
                 'precio_unitario' => 15000,
                 'precio_mayorista' => 12000,
                 'categoria_id' => 4, // Respiratorios Naturales
-                'imagen' => 'Reskine.jepg',
+                'imagen' => 'Reskine.jpeg',
             ],
             [
                 'nombre' => 'CÁPSULAS DE EXCELLIUM',
