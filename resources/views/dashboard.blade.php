@@ -21,6 +21,7 @@
                         ['title' => 'Ver Estadísticas', 'desc' => 'Consulta el comportamiento de ventas y registros del sistema.', 'route' => route('admin.estadisticas.index'), 'button' => 'Ver Estadísticas'],
                         ['title' => 'Gestionar Categorías', 'desc' => 'Organiza los productos por categorías para facilitar la búsqueda.', 'route' => route('admin.categorias.index'), 'button' => 'Ver Categorías'],
                         ['title' => 'Gestionar Usuarios', 'desc' => 'Administra los usuarios registrados en la plataforma.', 'route' => route('admin.usuarios.index'), 'button' => 'Ver Usuarios'],
+                        ['title' => 'Gestionar cotizaciones', 'desc' => 'Administra las cotizaciones en la plataforma.', 'route' => route('admin.cotizaciones'), 'button' => 'Ver Usuarios'],
                     ] as $card)
                         <div style="background-color: #1e1e1e; color: white; padding: 24px; border-radius: 16px; border: 1px solid #FFD700; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
                             <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 8px;">{{ $card['title'] }}</h3>

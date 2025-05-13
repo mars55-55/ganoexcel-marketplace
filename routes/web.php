@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\PromocionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\MarketplaceController;
+use App\Http\Controllers\Admin\CotizacionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,21 +52,15 @@ Route::middleware(['auth'])->group(function () {
 // Ruta pública o protegida para el listado de productos (para clientes y distribuidores)
 Route::middleware(['auth'])->get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
-Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
-    // CRUD de productos
+// Rutas de administrador protegidas por rol
+Route::middleware(['auth', ])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('productos', AdminProductoController::class);
-
-    // CRUD de categorías
     Route::resource('categorias', AdminCategoriaController::class);
-
-    // CRUD de usuarios
     Route::resource('usuarios', UserController::class);
-
-    // Estadísticas de ventas
     Route::get('estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas.index');
-
+    Route::get('cotizaciones', [CotizacionController::class, 'index'])->name('cotizaciones');
+    Route::patch('cotizaciones/{cotizacion}', [CotizacionController::class, 'update'])->name('cotizaciones.update');
 });
-
 Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace.index');
 
 require __DIR__.'/auth.php';
