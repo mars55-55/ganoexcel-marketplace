@@ -38,7 +38,7 @@ class CartController extends Controller
         $totalConDescuento = $total - $descuentoTotal;
         $costoEnvio = 0;
 
-        return view('cart.index', compact('cartItems', 'total', 'descuentoTotal', 'totalConDescuento', 'metodosEnvio','costoEnvio'));
+        return view('cart.index', compact('cartItems', 'total', 'descuentoTotal', 'totalConDescuento', 'metodosEnvio','costoEnvio','role'));
     }
 
     // Agregar un producto al carrito

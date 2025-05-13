@@ -188,7 +188,7 @@
 
                     <div class="mb-4">
                         <p><strong>Total con Envío:</strong> ${{ number_format($totalConDescuento + $costoEnvio, 2) }}</p>
-                        <p id="costo_envio_text" style="margin-top: 0.5rem; color: #FFD700;"></p>
+                      
                     </div>
 
                     <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Pagar</button>

@@ -7,6 +7,7 @@ use App\Models\MetodoEnvio;
 use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Compra;
 
 class CheckoutController extends Controller
 {
@@ -39,9 +40,17 @@ class CheckoutController extends Controller
         $cartItems = CartItem::where('user_id', Auth::id())->with('producto')->get();
 
         $total = 0;
-        foreach ($cartItems as $item) {
-            $total += $item->cantidad * $item->producto->precio_unitario;
-        }
+          foreach ($cartItems as $item) {
+        $subtotal = $item->cantidad * $item->producto->precio_unitario;
+        $total += $subtotal;
+
+        Compra::create([
+            'distribuidor_id' => Auth::id(), // ID del usuario autenticado
+            'producto_id' => $item->producto->id,
+            'cantidad' => $item->cantidad,
+            'precio_total' => $subtotal,
+        ]);
+    }
         // Capturar la dirección
         $direccion = $request->direccion;
         $totalConEnvio = $total + $metodoEnvio->costo;

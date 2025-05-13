@@ -12,7 +12,7 @@ class CompraController extends Controller
     {
         $compras = Compra::where('distribuidor_id', Auth::id())->with('producto')->paginate(10);
 
-        return view('distribuidor.compras.index', compact('compras'));
+        return view('historial.index', compact('compras'));
     }
 
     public function store(Request $request)
