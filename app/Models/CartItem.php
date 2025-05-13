@@ -41,11 +41,14 @@ class CartItem extends Model
 }
 
 // Ejemplo de modelo Compra/Order
-protected $fillable = [
-    'user_id',
-    'total',
-    'direccion_envio',
-    'metodo_pago',
-    'estado', // pendiente, pagado, enviado, etc.
-    // otros campos necesarios
-];
+class Order extends Model
+{
+    protected $fillable = [
+        'user_id',
+        'total',
+        'direccion_envio',
+        'metodo_pago',
+        'estado', // pendiente, pagado, enviado, etc.
+        // otros campos necesarios
+    ];
+}
