@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\EstadisticasController;
 use App\Http\Controllers\Admin\PromocionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\MarketplaceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,5 +67,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->
     // Gestión de promociones
     Route::resource('promociones', PromocionController::class);
 });
+
+Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace.index');
 
 require __DIR__.'/auth.php';

@@ -32,12 +32,18 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
+            'ingredientes' => 'nullable|string',
+            'beneficios' => 'nullable|string',
             'precio_unitario' => 'required|numeric|min:0',
-            'categoria_id' => 'required|exists:categorias,id',
+            'precio_mayorista' => 'nullable|numeric|min:0',
+            'categoria_id' => 'nullable|exists:categorias,id',
+            'nueva_categoria' => 'nullable|string|max:255',
+            'imagen' => 'nullable|image|max:2048',
         ]);
+
 
         Producto::create($request->all());
 

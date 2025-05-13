@@ -38,7 +38,7 @@ class CartController extends Controller
     {
         $request->validate([
             'producto_id' => 'required|exists:productos,id',
-            'cantidad' => 'required|integer|min:1',
+            'cantidad' => 'required|integer|min:1'
         ]);
 
         $cartItem = CartItem::updateOrCreate(
@@ -77,5 +77,19 @@ class CartController extends Controller
         ]);
 
         return redirect()->route('cart.index')->with('success', 'Tu solicitud de cotización ha sido enviada.');
+    }
+
+    public function checkout(Request $request)
+    {
+        $request->validate([
+            'direccion_envio' => 'required|string|max:255',
+            'metodo_pago' => 'required|string|max:50',
+            // Otros campos necesarios
+        ]);
+
+        // Procesar el pago y guardar la orden con los datos de envío
+        // ...
+
+        return redirect()->route('dashboard')->with('success', 'Compra realizada con éxito.');
     }
 }

@@ -11,6 +11,13 @@
             </a>
         </div>
 
+        <div style="text-align: right; margin-bottom: 1rem;">
+            <a href="{{ route('admin.productos.create') }}"
+               style="background-color: transparent; color: #FFD700; border: 1px solid #FFD700; padding: 0.4rem 1rem; border-radius: 0.375rem; font-weight: 600; text-decoration: none; transition: background 0.3s;">
+                Crear producto
+            </a>
+        </div>
+
         <table style="width: 100%; margin-top: 1rem; border-collapse: collapse;">
             <thead>
                 <tr>

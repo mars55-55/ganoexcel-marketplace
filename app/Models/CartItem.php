@@ -39,3 +39,13 @@ class CartItem extends Model
         return 0; // Sin descuento si no se supera el umbral
     }
 }
+
+// Ejemplo de modelo Compra/Order
+protected $fillable = [
+    'user_id',
+    'total',
+    'direccion_envio',
+    'metodo_pago',
+    'estado', // pendiente, pagado, enviado, etc.
+    // otros campos necesarios
+];
