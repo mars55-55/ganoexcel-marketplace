@@ -105,10 +105,35 @@
                             <tr>
                                 <td>{{ $item->producto->nombre }}</td>
                                 <td>{{ $item->cantidad }}</td>
-                                <td>${{ number_format($item->producto->precio_unitario, 2) }}</td>
-                                <td>${{ number_format($item->cantidad * $item->producto->precio_unitario, 2) }}</td>
-                                <td>${{ number_format($item->calcularDescuento(), 2) }}</td>
-                                <td>${{ number_format(($item->cantidad * $item->producto->precio_unitario) - $item->calcularDescuento(), 2) }}</td>
+                                <td>
+                                    @if ($role === 'distribuidor')
+                                        ${{ number_format($item->producto->precio_mayorista, 2) }}
+                                    @else
+                                        ${{ number_format($item->producto->precio_unitario, 2) }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($role === 'distribuidor')
+                                        ${{ number_format($item->cantidad * $item->producto->precio_mayorista, 2) }}
+                                    @else
+                                        ${{ number_format($item->cantidad * $item->producto->precio_unitario, 2) }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($role === 'distribuidor')
+                                        {{-- Descuento: diferencia entre precio unitario y mayorista por cantidad --}}
+                                        ${{ number_format(($item->producto->precio_unitario - $item->producto->precio_mayorista) * $item->cantidad, 2) }}
+                                    @else
+                                        $0.00
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($role === 'distribuidor')
+                                        ${{ number_format(($item->cantidad * $item->producto->precio_mayorista) - $item->calcularDescuento(), 2) }}
+                                    @else
+                                        ${{ number_format(($item->cantidad * $item->producto->precio_unitario) - $item->calcularDescuento(), 2) }}
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -140,6 +165,9 @@
                             <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección de Envío</label>
                             <input type="text" name="direccion" id="direccion" class="w-full border rounded" placeholder="Ingresa tu dirección completa" required>
                         </div>
+            <div class="mt-6 centered">
+                <h3 class="text-lg font-bold text-white">Seleccionar Método de Pago y Envío</h3>
+                <form action="{{ route('checkout.index') }}" method="GET" class="w-full max-w-xs">
                     <div class="mb-4">
                         <label for="metodo_envio" class="block text-sm font-medium text-gray-700">Método de Envío</label>
                         <select name="metodo_envio" id="metodo_envio" class="w-full border rounded" required>
@@ -151,9 +179,16 @@
                         </select>
                     </div>
 
-                    {{-- Mostrar el costo total con envío --}}
+                    
+
+                    <div class="mb-4" id="direccion_envio_div" style="display: none;">
+                        <label for="direccion_envio" class="block text-sm font-medium text-white">Dirección de Envío</label>
+                        <input type="text" name="direccion_envio" id="direccion_envio" class="w-full border rounded text-dorado" placeholder="Dirección completa">
+                    </div>
+
                     <div class="mb-4">
                         <p><strong>Total con Envío:</strong> ${{ number_format($totalConDescuento + $costoEnvio, 2) }}</p>
+                        <p id="costo_envio_text" style="margin-top: 0.5rem; color: #FFD700;"></p>
                     </div>
 
                     <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Pagar</button>
@@ -161,4 +196,26 @@
             </div>
         @endif
     </div>
+
+    <script>
+        // Mostrar/ocultar dirección y costo de envío según método seleccionado
+        document.addEventListener('DOMContentLoaded', function () {
+            const metodoEnvio = document.getElementById('metodo_envio');
+            const direccionDiv = document.getElementById('direccion_envio_div');
+            const costoEnvioText = document.getElementById('costo_envio_text');
+
+            function updateEnvio() {
+                if (metodoEnvio.value === 'domicilio') {
+                    direccionDiv.style.display = 'block';
+                    costoEnvioText.textContent = 'Costo de envío: $8.000';
+                } else {
+                    direccionDiv.style.display = 'none';
+                    costoEnvioText.textContent = 'Sin costo de envío';
+                }
+            }
+
+            metodoEnvio.addEventListener('change', updateEnvio);
+            updateEnvio();
+        });
+    </script>
 </x-app-layout>

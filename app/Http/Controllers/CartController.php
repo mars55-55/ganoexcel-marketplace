@@ -18,15 +18,21 @@ class CartController extends Controller
     {
         $cartItems = CartItem::where('user_id', Auth::id())->with('producto')->get();
 
+        // Determina el rol del usuario autenticado
+        $role = Auth::user()->role ?? 'cliente'; // Ajusta según tu sistema de roles
+
+        // Calcula totales según el rol
         $total = 0;
         $descuentoTotal = 0;
+        $totalConDescuento = 0;
 
         foreach ($cartItems as $item) {
-            $subtotal = $item->cantidad * $item->producto->precio_unitario;
+            $precio = ($role === 'distribuidor') ? $item->producto->precio_mayorista : $item->producto->precio_unitario;
+            $subtotal = $item->cantidad * $precio;
             $descuento = $item->calcularDescuento();
-
             $total += $subtotal;
             $descuentoTotal += $descuento;
+            $totalConDescuento += ($subtotal - $descuento);
         }
        $metodosEnvio = MetodoEnvio::all();
         $totalConDescuento = $total - $descuentoTotal;
