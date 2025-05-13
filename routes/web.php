@@ -31,15 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', RoleMiddleware::class . ':distribuidor'])->prefix('distribuidor')->name('distribuidor.')->group(function () {
+Route::middleware(['auth'])->prefix('distribuidor')->name('distribuidor.')->group(function () {
     Route::resource('productos', ProductoController::class);
     Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
     Route::post('/compras', [CompraController::class, 'store'])->name('compras.store');
 });
 
-Route::middleware(['auth', RoleMiddleware::class . ':cliente'])->group(function () {
-    Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
-});
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -50,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::post('/productos/{producto}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
+
+// Ruta pública o protegida para el listado de productos (para clientes y distribuidores)
+Route::middleware(['auth'])->get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
 Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->name('admin.')->group(function () {
     // CRUD de productos
@@ -64,8 +64,6 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])->prefix('admin')->
     // Estadísticas de ventas
     Route::get('estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas.index');
 
-    // Gestión de promociones
-    Route::resource('promociones', PromocionController::class);
 });
 
 Route::get('/marketplace', [MarketplaceController::class, 'index'])->name('marketplace.index');

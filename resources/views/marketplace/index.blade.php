@@ -28,16 +28,13 @@
                     @endif
 
                     <div style="margin-top: 1rem;">
-                        @if ($role === 'distribuidor')
-                            <a href="{{ route('distribuidor.productos.edit', $producto) }}" class="bg-yellow-400 text-black px-4 py-2 rounded">Editar</a>
-                        @elseif ($role === 'cliente')
-                            <form method="POST" action="{{ route('cart.store') }}">
-                                @csrf
-                                <input type="hidden" name="producto_id" value="{{ $producto->id }}">
-                                <input type="number" name="cantidad" value="1" min="1" class="w-16 border rounded">
-                                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Añadir al Carrito</button>
-                            </form>
-                        @endif
+                        {{-- Tanto distribuidor como cliente pueden comprar --}}
+                        <form method="POST" action="{{ route('cart.store') }}">
+                            @csrf
+                            <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                            <input type="number" name="cantidad" value="1" min="1" class="w-16 border rounded">
+                            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Añadir al Carrito</button>
+                        </form>
                     </div>
                 </div>
             @endforeach
