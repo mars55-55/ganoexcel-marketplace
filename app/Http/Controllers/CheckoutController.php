@@ -32,6 +32,7 @@ class CheckoutController extends Controller
     {
         $request->validate([
             'metodo_envio' => 'required|exists:metodos_envio,id',
+             'direccion' => 'required|string|max:255', // Validar la dirección
         ]);
 
         $metodoEnvio = MetodoEnvio::find($request->metodo_envio);
@@ -41,14 +42,15 @@ class CheckoutController extends Controller
         foreach ($cartItems as $item) {
             $total += $item->cantidad * $item->producto->precio_unitario;
         }
-
+        // Capturar la dirección
+        $direccion = $request->direccion;
         $totalConEnvio = $total + $metodoEnvio->costo;
 
         // Vaciar el carrito
         CartItem::where('user_id', Auth::id())->delete();
 
         // Enviar correo de confirmación
-        Mail::to(Auth::user()->email)->send(new \App\Mail\PedidoConfirmado($cartItems, $totalConEnvio, $metodoEnvio));
+        Mail::to(Auth::user()->email)->send(new \App\Mail\PedidoConfirmado($cartItems, $totalConEnvio, $metodoEnvio, $direccion));
 
         return redirect()->route('cart.index')->with('success', 'Pedido realizado con éxito. Revisa tu correo para más detalles.');
     }

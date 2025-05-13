@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MetodoEnvio extends Model
 {
     use HasFactory;
+     protected $table = 'metodos_envio'; // Nombre de la tabla asociada
 
     protected $fillable = ['nombre', 'costo'];
 }

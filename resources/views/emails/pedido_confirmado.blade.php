@@ -10,4 +10,5 @@
 
 <p><strong>Método de Envío:</strong> {{ $metodoEnvio->nombre }}</p>
 <p><strong>Costo de Envío:</strong> ${{ number_format($metodoEnvio->costo, 2) }}</p>
+<p><strong>Dirección de Envío:</strong> {{ $direccion }}</p>
 <p><strong>Total:</strong> ${{ number_format($total, 2) }}</p>
