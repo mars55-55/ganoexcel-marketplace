@@ -14,7 +14,7 @@
             @foreach ($productos as $producto)
                 <div style="background-color: #121212; border: 1px solid #FFD700; border-radius: 1rem; padding: 1.5rem; width: 300px;">
                     @if ($producto->imagen)
-                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="imagen"
+                        <img src="{{ asset('storage/productos/' . $producto->imagen) }}" alt="imagen"
                              style="width: 100%; height: 180px; object-fit: cover; border-radius: 0.75rem; margin-bottom: 1rem;">
                     @endif
                     <h3 style="font-size: 1.25rem; font-weight: bold;">{{ $producto->nombre }}</h3>

@@ -6,6 +6,7 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cotizacion;
+use App\Models\MetodoEnvio;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -27,10 +28,11 @@ class CartController extends Controller
             $total += $subtotal;
             $descuentoTotal += $descuento;
         }
-
+       $metodosEnvio = MetodoEnvio::all();
         $totalConDescuento = $total - $descuentoTotal;
+        $costoEnvio = 0;
 
-        return view('cart.index', compact('cartItems', 'total', 'descuentoTotal', 'totalConDescuento'));
+        return view('cart.index', compact('cartItems', 'total', 'descuentoTotal', 'totalConDescuento', 'metodosEnvio','costoEnvio'));
     }
 
     // Agregar un producto al carrito

@@ -28,7 +28,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/dashboard');
+          $role = Auth::user()->role;
+
+    // Redirigir según el rol
+    switch ($role) {
+        case 'admin':
+            return redirect()->route('dashboard'); // Ruta para administradores
+        case 'distribuidor':
+            return redirect()->route('marketplace.index'); // Ruta para distribuidores
+        case 'cliente':
+            return redirect()->route('marketplace.index'); // Ruta para clientes
+        default:
+            return redirect('/login'); // Ruta por defecto
+    }
 
     }
 

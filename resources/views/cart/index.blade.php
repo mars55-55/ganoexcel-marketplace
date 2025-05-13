@@ -132,25 +132,31 @@
                 </div>
             @endif
 
-            <div class="mt-6 centered">
-                <h3 class="text-lg font-bold text-white">Seleccionar Método de Pago</h3>
-                <form action="{{ route('checkout.store') }}" method="POST" class="w-full max-w-xs">
+             <div class="mt-6">
+                <h3 class="text-lg font-bold">Seleccionar Método de Envío</h3>
+                <form action="{{ route('checkout.store') }}" method="POST">
                     @csrf
-
+                <div class="mb-4">
+                            <label for="direccion" class="block text-sm font-medium text-gray-700">Dirección de Envío</label>
+                            <input type="text" name="direccion" id="direccion" class="w-full border rounded" placeholder="Ingresa tu dirección completa" required>
+                        </div>
                     <div class="mb-4">
-                        <label for="metodo_pago" class="block text-sm font-medium text-white">Método de Pago</label>
-                        <select name="metodo_pago" id="metodo_pago" class="w-full border rounded text-dorado" required>
-                            <option value="efectivo">Efectivo</option>
-                            <option value="nequi">Nequi</option>
-                            <option value="daviplata">Daviplata</option>
+                        <label for="metodo_envio" class="block text-sm font-medium text-gray-700">Método de Envío</label>
+                        <select name="metodo_envio" id="metodo_envio" class="w-full border rounded" required>
+                            @foreach ($metodosEnvio as $metodo)
+                                <option value="{{ $metodo->id }}">
+                                    {{ $metodo->nombre }} - ${{ number_format($metodo->costo, 2) }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
 
+                    {{-- Mostrar el costo total con envío --}}
                     <div class="mb-4">
-                        <p><strong>Total con Descuento:</strong> ${{ isset($totalConDescuento) ? number_format($totalConDescuento, 2) : '0.00' }}</p>
+                        <p><strong>Total con Envío:</strong> ${{ number_format($totalConDescuento + $costoEnvio, 2) }}</p>
                     </div>
 
-                    <button type="submit" class="bg-dorado text-black px-4 py-2 rounded">Pagar</button>
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Pagar</button>
                 </form>
             </div>
         @endif

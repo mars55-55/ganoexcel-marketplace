@@ -15,15 +15,16 @@ class PedidoConfirmado extends Mailable
     public $cartItems;
     public $total;
     public $metodoEnvio;
-
+    public $direccion;
     /**
      * Create a new message instance.
      */
-    public function __construct($cartItems, $total, $metodoEnvio)
+    public function __construct($cartItems, $total, $metodoEnvio, $direccion)
     {
         $this->cartItems = $cartItems;
         $this->total = $total;
         $this->metodoEnvio = $metodoEnvio;
+         $this->direccion = $direccion;
     }
 
     /**
@@ -42,7 +43,7 @@ class PedidoConfirmado extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.pedido_confirmado',
         );
     }
 
@@ -64,6 +65,8 @@ class PedidoConfirmado extends Mailable
                         'cartItems' => $this->cartItems,
                         'total' => $this->total,
                         'metodoEnvio' => $this->metodoEnvio,
+                         'direccion' => $this->direccion, // Pasar la dirección a la vista
+
                     ]);
     }
 }
